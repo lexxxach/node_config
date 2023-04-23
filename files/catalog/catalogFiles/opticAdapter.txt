@@ -1,0 +1,38 @@
+{
+    "артикул":[
+ "RNFA9AQLC",
+"RNFA9UQLC",
+"RNFAASFC",
+"RNFAUSFC",
+"RNFAUSST",
+"RNFA9UDLC",
+"RNFA9ADLC",
+"RNFA9UDSC",
+"RNFA9ADSC",
+"RNFA54DLC",
+"RNFA54QLC",
+"RNFA53DLC",
+"RNFA53DSC",
+"RNFA50DLC",
+"RNFA50DSC"
+    ],
+    "наименование":[
+      "Адаптер LC/APC-Quad, Senior/Senior, SC-footprint, ОS2, зеленый",
+"Адаптер LC/UPC-Quad, Senior/Senior, SC-footprint, ОS2, синий",
+"Адаптер FC/APC-Simplex, D-типа, керамическая втулка одномод",
+"Адаптер FC/UPC-Simplex, D-типа, керамическая втулка одномод/многомод",
+"Адаптер ST/UPC-Simplex, керамическая втулка одномод/многомод",
+"Адаптер LC/UPC-Duplex TOP, Senior/Senior, SC-footprint, OS2, синий",
+"Адаптер LC/APC-Duplex TOP, Senior/Senior, SC-footprint, OS2, зеленый",
+"Адаптер SC/UPC-Duplex TOP, OS2, синий",
+"Адаптер SC/APC-Duplex TOP, OS2, зеленый",
+"Адаптер LC/UPC-Duplex TOP, Senior/Senior, SC-footprint, OM4, пурпурный",
+"Адаптер LC/UPC-Quad, Senior/Senior, SC-Duplex footprint, OM4, пурпурный",
+"Адаптер LC/UPC-Duplex TOP, Senior/Senior, SC-footprint, ОМ3, бирюзовый",
+"Адаптер SC/UPC-Duplex TOP, ОМ3, бирюзовый",
+"Адаптер LC/UPC-Duplex TOP, Senior/Senior, SC-footprint, ОМ2, бежевый",
+"Адаптер SC/UPC-Duplex TOP, ОМ2, бежевый"
+
+    ]
+
+}

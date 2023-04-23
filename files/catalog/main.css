@@ -1,0 +1,90 @@
+body { 
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ }
+
+select, input{
+    padding: 5px;
+    margin: 5px;
+    font-family: inherit;
+    font-size: inherit;
+ 
+}
+
+input[name='selectBtn'],
+input[name='btnSelect'],
+input[name='selectBtnModule'],
+input[name='selectBtnVar'],
+input[name='btnAccesories'],
+#btn,
+#btnDnld
+{
+  background-color: white;
+  border: 3px solid #4CAF50;
+ color: #000000;
+  transition: 0.5s
+}
+
+input[name='selectBtn']:hover,
+input[name='btnSelect']:hover,
+#btn:hover,
+input[name='selectBtnModule']:hover,
+input[name='selectBtnVar']:hover,
+input[name='btnAccesories']:hover,
+#btnDnld:hover{
+  background-color: #4CAF50;
+  color: aliceblue;
+  border:  3px solid white;
+}
+
+.accesoriesGrounding{
+  background-color: #a4f0a7;
+}
+
+.accesoriesBracing{
+  background-color: #e0e299;
+}
+
+.accesoriesUnification,
+.accesoriesPlinth{
+  background-color: #a5b3f3;
+}
+
+
+.menu {
+    list-style: none; /*убираем маркеры списка*/
+    margin: 0; /*убираем верхнее и нижнее поле, равное 1em*/
+    padding-left: 0; /*убираем левый отступ, равный 40px*/
+    
+    display: flex;
+  }
+ 
+  .menu  a {
+    text-decoration: none; /*убираем подчеркивание текста ссылок*/
+    padding: 1em;
+  display: block;
+  color: #000000;
+  border-right: 1px solid #616060;
+  background: rgba(148, 148, 148, 0.3);
+  
+}
+
+.menu a:hover {
+    background: #3f3f3f;
+    color: aliceblue    ;
+    transition: .5s ease;
+
+}
+
+.menuActive {
+    background: #555555;
+    color: aliceblue;
+}
+
+.menuActive a {
+  
+  color: aliceblue;
+}
+
+
+
+

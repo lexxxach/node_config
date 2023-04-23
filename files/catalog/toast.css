@@ -1,0 +1,30 @@
+.toast{
+    position: fixed;
+    background: rgb(151, 245, 151);
+    color: green;
+    border-radius: 5px;
+    border: 2px solid green;
+    visibility: hidden;
+    font-size: 110%;
+    width: 14%;    
+    height: auto;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 15px;
+    opacity: 0;
+    transition: 0.5s;
+    left: 43%;
+    bottom: 5%;
+    
+}
+
+.toastDisp{
+    visibility: visible;
+    opacity:.5;
+}
+
+.toast span{
+    align-self: center;
+    color: green;
+    transition: 5s;
+}

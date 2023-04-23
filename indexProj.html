@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+   <!--  <link href="./files/catalog/main.css" rel="stylesheet" />
+    <link href="./files/catalog/table.css" rel="stylesheet" />
+    <link href="./files/catalog/toast.css" rel="stylesheet" /> -->
+    <!--  <script src="./files/catalog/decorationCss.js"></script> -->
+</head>
+
+<body>
+    <h1>Проекты</h1>
+    <ul class="menu">
+       <!--  <li> <a href="http://46.48.126.66:25355/cable">Кабель (медь)</a></li>
+        <li> <a href="http://46.48.126.66:25355/cableOptic">Кабель (оптика)</a></li>
+        <li><a href="http://46.48.126.66:25355/optic">Оптика (кросс)</a></li>
+        <li> <a href="http://46.48.126.66:25355/pcord">Патч-корд (медь)</a></li>
+        <li> <a href="http://46.48.126.66:25355/pcordOptic">Патч-корд (Оптика)</a></li>
+        <li><a href="http://46.48.126.66:25355/ppanel">Патч-панель (медь)</a></li>
+        <li><a href="http://46.48.126.66:25355/cabinet">Напольный шкаф и аксессуары</a></li> -->
+    </ul>
+
+
+
+
+
+
+    <div name="head">{head}</div>
+
+    <div name="content">{content}</div>
+
+    <!-- <script type="module" src="./files/catalog/script.js"></script> -->
+
+    {scriptHead}
+   <!--  <input type="button" id="btnDnld" value="Скачать" hidden>
+    <script src="./files/catalog/decorationCss.js"></script>
+
+
+    <script src="./files/catalog/table2excel.js"></script>
+    <script src="./files/catalog/tableToExcel2.js"></script>
+    <script>
+        let elem = document.querySelector('#btnDnld')
+
+        let m = tableToExcel2
+        elem.addEventListener('click', () => {
+
+            var table2excel = new Table2Excel('Новый файл');
+            let elemsTable = document.querySelectorAll('table')
+            
+            async function loadFile(elems) {
+                
+                for (const elemTable of elems) {
+                    let promLoad = new Promise(res => {
+                        setTimeout(() => {
+                            table2excel.export(elemTable, elemTable.dataset.nameDldFile);
+                            //alert(elemTable.dataset.nameDldFile)
+                            res(1)
+                        }, 100)
+                    })
+
+                    await promLoad
+
+                }
+            }
+
+            loadFile(elemsTable)
+
+            /*   for (const elemTable of elemsTable) {
+                arrName.push(elemTable.dataset.nameDldFile) 
+                //alert(elemTable.dataset.nameDldFile)
+                }
+ */
+            /* arrName.forEach((item,ind)=>{
+                alert(item)
+                table2excel.export(elemsTable[ind], item)})
+
+*/
+
+
+
+
+            /*      let prom = new Promise(res=>setTimeout(res,3000))
+prom.then(res=>alert(res))
+*/
+
+
+            // alert(elemsTable[0])
+
+
+
+            // table2excel.export(elemTable, elemTable.dataset.nameDldFile);
+
+
+            /*        for (const elemTable of elemsTable) {
+       
+                       dld(elemTable, table2excel.export)
+       
+                   }
+       
+       
+                   function dld(elemNew, callBack) {
+       
+                       callBack(elemNew, elemNew.dataset.nameDldFile)
+       
+       
+                   }
+       
+        */
+
+        })
+    </script> -->
+</body>
+
+</html>
