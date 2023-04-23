@@ -98,7 +98,7 @@ function createArrRow(path, data) {
         let arrStbsArt = [a1 + a2 + a3 + a4 + a5 + a6]
         arrArt = arrStbsArt.map(item => new ResObj(obj, data, 'Fan', item))
 
-        console.log(arrStbsArt)
+        //console.log(arrStbsArt)
 
         return arrArt
 
