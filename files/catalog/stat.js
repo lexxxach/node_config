@@ -7,7 +7,7 @@ async function writeIp(pathWrite, fileName, currentIp, path) {
     let res = await resp.json()
 
     let ipAddr = res.ip
-    let ipRegion = res.region.name_ru
+    let ipRegion = res.region?.name_ru
     let ipCity = res.city.name_ru
     let resStr = `IP:${ipAddr}_Область:${ipRegion}_Город:${ipCity}_${new Date()}_${path}`
 
