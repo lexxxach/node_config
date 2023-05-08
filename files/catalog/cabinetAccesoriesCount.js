@@ -122,7 +122,7 @@ function createArrRow(path, data) {
 
         return arrArt
 
-    }else if (path == '/cabinetBracketVar') {
+    } else if (path == '/cabinetBracketVar') {
 
         let fileName = 'cabinetAccesories'
         let obj = JSON.parse(readCatalog.readCatalog(`${fileName}.txt`))
@@ -141,7 +141,7 @@ function createArrRow(path, data) {
 
         return arrArt
 
-    } 
+    }
     else if (path == '/cabinetBracketVarMini') {
 
         let fileName = 'cabinetAccesories'
@@ -152,7 +152,7 @@ function createArrRow(path, data) {
         let a1, a2
         a1 = 'R5SCRK01'
 
-        a2 = data.цвет=='7035'?'':'B'
+        a2 = data.цвет == '7035' ? '' : 'B'
 
         let arrStbsArt = [a1 + a2]
         arrArt = arrStbsArt.map(item => new ResObj(obj, data, 'Bracket', item))
@@ -265,7 +265,7 @@ function createArrRow(path, data) {
 
         return arrArt
 
-    }else if (path == '/cabinetLight') {
+    } else if (path == '/cabinetLight') {
 
         let fileName = 'cabinetAccesories'
         let obj = JSON.parse(readCatalog.readCatalog(`${fileName}.txt`))
@@ -280,9 +280,9 @@ function createArrRow(path, data) {
         let a1, a2
         a1 = 'R5LA0'
 
-        a2 = data.ширина=='6'?'3':'6'
+        a2 = data.ширина == '6' ? '3' : '6'
 
-        arrStbsArt.push(a1+a2)
+        arrStbsArt.push(a1 + a2)
         arrStbsArt.push('R5MAG01N')
         arrStbsArt.push('R5MC01')
 
@@ -292,7 +292,87 @@ function createArrRow(path, data) {
 
         return arrArt
 
+    } else if (path == '/cabinetshelf1U') {
+        let fileName = 'cabinetAccesories'
+        let obj = JSON.parse(readCatalog.readCatalog(`${fileName}.txt`))
+
+        console.log(obj)
+
+        //Стационарные
+        //R5R_FLIT_[8]_0_[B]
+
+        //Регулируемые
+        //R5R_ERIT_[]_810_[B]
+
+        //Выдвижные
+        //R5R_EIT68_[8]_0_[B]
+
+
+
+
+        let a1, a2, a3, a4, a5
+        a1 = 'R5R'
+
+        if (data.тип == 'const') a2 = 'FLIT'
+        if (data.тип == 'variable') a2 = 'ERIT'
+        if (data.тип == 'track') a2 = 'EIT68'
+
+        if (data.тип == 'const' || data.тип == 'track') a3 = data.глубина
+        if (data.тип == 'variable') a3 = ''
+
+        if (data.тип == 'const' || data.тип == 'track') a4 = '0'
+        if (data.тип == 'variable') a4 = '810'
+
+        if (data.тип == 'const' || data.тип == 'track') a4 = '0'
+        if (data.тип == 'variable') a4 = '810'
+
+        a5 = data.цвет == '7035' ? '' : 'B'
+
+        let arrStbsArt = [a1 + a2 + a3 + a4 + a5]
+        arrArt = arrStbsArt.map(item => new ResObj(obj, data, 'shelf1U', item))
+
+        console.log(arrStbsArt)
+
+        return arrArt
+
+
+
+
+    } else if (path == '/cabinetshelf2U') {
+        let fileName = 'cabinetAccesories'
+        let obj = JSON.parse(readCatalog.readCatalog(`${fileName}.txt`))
+
+        console.log(obj)
+
+        //Стационарные
+
+        //R5R_FIT_250_B
+
+        //Выдвижные
+        //R5R_EIT_30_B
+
+
+        let a1, a2, a3, a4
+        a1 = 'R5R'
+
+        a2 = data.тип == 'keyBoard' ? 'EIT' : 'FIT'
+
+        a3 = data.тип == 'keyBoard' ? '30' : data.тип
+
+        a4 = data.цвет == '7035' ? '' : 'B'
+
+        let arrStbsArt = [a1 + a2 + a3 + a4]
+        arrArt = arrStbsArt.map(item => new ResObj(obj, data, 'shelf2U', item))
+
+        console.log(arrStbsArt)
+
+        return arrArt
+
     }
+
+
+
+
 
 
 
@@ -344,13 +424,13 @@ function ResObj(obj, data, type, prop = undefined) {
             this.наименование = obj.наименование[obj.артикул.indexOf(prop)]
             this.количество = data.Количество * 1
             break
-            case 'BracketVar':
+        case 'BracketVar':
             //  console.log(obj.артикул.find(item => item == prop))
             this.артикул = obj.артикул.find(item => item == prop)
             this.наименование = obj.наименование[obj.артикул.indexOf(prop)]
             this.количество = data.Количество * 1
             break
-            case 'BracketVarMini':
+        case 'BracketVarMini':
             //  console.log(obj.артикул.find(item => item == prop))
             this.артикул = obj.артикул.find(item => item == prop)
             this.наименование = obj.наименование[obj.артикул.indexOf(prop)]
@@ -381,12 +461,30 @@ function ResObj(obj, data, type, prop = undefined) {
             this.наименование = obj.наименование[obj.артикул.indexOf(prop)]
             this.количество = data.Количество * 1
             break
-            case 'Light':
-                //  console.log(obj.артикул.find(item => item == prop))
-                this.артикул = obj.артикул.find(item => item == prop)
-                this.наименование = obj.наименование[obj.артикул.indexOf(prop)]
-                this.количество = data.Количество * 1
-                break
+        case 'Light':
+            //  console.log(obj.артикул.find(item => item == prop))
+            this.артикул = obj.артикул.find(item => item == prop)
+            this.наименование = obj.наименование[obj.артикул.indexOf(prop)]
+            this.количество = data.Количество * 1
+            break
+        case 'shelf1U':
+            //  console.log(obj.артикул.find(item => item == prop))
+            this.артикул = obj.артикул.find(item => item == prop)
+            this.наименование = obj.наименование[obj.артикул.indexOf(prop)]
+            this.количество = data.Количество * 1
+            break
+        case 'shelf2U':
+            //  console.log(obj.артикул.find(item => item == prop))
+            this.артикул = obj.артикул.find(item => item == prop)
+            this.наименование = obj.наименование[obj.артикул.indexOf(prop)]
+            this.количество = data.Количество * 1
+            break
+
+
+
+
+
+
 
 
     }

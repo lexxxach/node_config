@@ -384,6 +384,15 @@ export default class HeadConstructor {
         } else if (param == '/cabinetLight') {
             resultObj.ширина = elem.querySelector("[name='ширина']").value
             resultObj.Количество = elem.querySelector("[name='quantity']").value
+        }else if (param == '/cabinetshelf1U') {
+            resultObj.тип = elem.querySelector("[name='shelfSmallType']").value
+            resultObj.глубина = elem.querySelector("[name='shelfSmallDepth']").value
+            resultObj.цвет = elem.querySelector("[name='цвет']").value
+            resultObj.Количество = elem.querySelector("[name='quantity']").value
+        }else if (param == '/cabinetshelf2U') {
+            resultObj.тип = elem.querySelector("[name='shelfBigType']").value
+            resultObj.цвет = elem.querySelector("[name='цвет']").value
+            resultObj.Количество = elem.querySelector("[name='quantity']").value
         }
 
 
@@ -972,7 +981,7 @@ export default class HeadConstructor {
 
                         let elemBody = document.querySelector("[name='varPanelContent']")
 
-                     //   console.log(JSON.stringify(resp))
+                        //   console.log(JSON.stringify(resp))
 
                         let elemTable = new TableResult1.default('/ppanelTableVar', resp).elem
 
@@ -1076,9 +1085,9 @@ export default class HeadConstructor {
                         let elemBody = document.querySelector("[name='content']")
 
                         //console.log(JSON.stringify(resp))
-    
+
                         let elemTable = new TableResult1.default('/pcordOpticTable', resp).elem
-    
+
                         let currentElemTAble = document.querySelector('table')
                         if (currentElemTAble) currentElemTAble.remove()
 
@@ -1089,9 +1098,9 @@ export default class HeadConstructor {
 
 
                         elemBody.append(elemTable)
-    
-                       // elemBody.innerHTML = elemTable.outerHTML
-    
+
+                        // elemBody.innerHTML = elemTable.outerHTML
+
                         this.#manageHideBtnDld(elemBody)
 
                     })
@@ -1223,6 +1232,7 @@ export default class HeadConstructor {
             <option value="Stubs">Заглушки</option>
             <option value="Fan">Вентиляционные панели (потолочные)</option>
             <option value="DinModule">Модули с DIN рейкой</option>
+            <option disabled value="PDU">PDU (блоки распределения питания)</option>
             <option value="Light">Элементы освещения (LED)</option>
             <optgroup label = 'Уголки для оборудования'>
             <option value="Bracket">Уголок для тяжелого оборудования</option>
@@ -1235,29 +1245,57 @@ export default class HeadConstructor {
             <option value="OrganiserVertical">Кабельный органайзер (вертикальный)</option>
             <option value="OrganiserRing">Кабельные кольца (металл)</option>
             </optgroup>
-
+            <optgroup label = 'Полки'>
+            <option value="shelf1U">Полки 1U </option>
+            <option value="shelf2U">Полки 2U (Раздел в доработке)</option>
+            
+            </optgroup>
 
 
         </select>
 
+        <label name = 'shelfTypeBigDiv' hidden>Тип полки:
+        <select name="shelfBigType">
+        <option value="250">Полка консольная 2U (глуб. 250 мм)</option>
+        <option value="400">Полка консольная 2U (глуб. 400 мм)</option>
+        <option value="keyBoard">Полка выдвижная 2U (для клавиатуры)</option>
+         </select>
+         </label>
+
+
+        <label name = 'shelfTypeSmallDiv' hidden>Тип полки:
+        <select name="shelfSmallType">
+        <option value="const">Стационарная</option>
+        <option value="variable">Регулируемые по глубине</option>
+        <option value="track">Выдвижная</option>
+         </select>
+         </label>
+
+         <label name = 'shelfTypeSmallDepthDiv' hidden>Глубина:
+        <select name="shelfSmallDepth">
+        <option value="6">шкаф 600 (глубина 253 мм)</option>
+        <option value="8">шкаф 800 (глубина 453 мм)</option>
+        <option value="10">шкаф 1000 (глубина 653 мм)</option>
+        <option value="12">шкаф 1200 (глубина 853 мм)</option>
+         </select>
+         </label>
+
+        
+
         <select name="stubsHeightOtion" hidden>
-        <option value="1">1U</option>
-        <option value="2">2U</option>
-        <option value="3">3U</option>
-        <option value="4">4U</option>
-        <option value="5">5U</option>
-        <option value="6">6U</option>
-        <option value="7">7U</option>
-        <option value="8">8U</option>
-        <option value="9">9U</option>
-        <option value="10">10U</option>
-        <option value="11">11U</option>
-        <option value="12">12U</option>
-
-
-
-
-    </select>
+         <option value="1">1U</option>
+         <option value="2">2U</option>
+         <option value="3">3U</option>
+         <option value="4">4U</option>
+         <option value="5">5U</option>
+         <option value="6">6U</option>
+         <option value="7">7U</option>
+         <option value="8">8U</option>
+         <option value="9">9U</option>
+         <option value="10">10U</option>
+         <option value="11">11U</option>
+         <option value="12">12U</option>
+        </select>
 
     <select name="fanQuantity" hidden>
         
@@ -1317,13 +1355,48 @@ export default class HeadConstructor {
     </div>
 </div>    
 `
+let elShelfType = elem.querySelector("[name = 'shelfSmallType']")
+
+elShelfType.addEventListener('change',function(){
+    let elShelfDepth = elem.querySelector("[name = shelfSmallDepth]")
+    elShelfDepth.innerHTML = shelfHtml(this.value)
+})
+
+
+
+//Состав элемента select для полок 1U
+function shelfHtml(value){
+          
+            let res = ''
+
+            if (value=='const'){
+                res = `<option value="6">шкаф 600 (глубина 253 мм)</option>
+                <option value="8">шкаф 800 (глубина 453 мм)</option>
+                <option value="10">шкаф 1000 (глубина 653 мм)</option>
+                <option value="12">шкаф 1200 (глубина 853 мм)</option>`
+
+            }else if(value=='variable'){
+                res = `
+                <option value="8">шкаф 800</option>
+                <option value="10">шкаф 1000</option>
+                `
+            }else if(value = 'track'){
+                res = `<option value="6">шкаф 600 (глубина 253 мм)</option>
+                <option value="8">шкаф 800 (глубина 453 мм)</option>
+                <option value="10">шкаф 1000 (глубина 653 мм)</option>`
+            }
+
+            return res
+        }
+
+
         let elemBtn = elem.querySelector("[name='selectBtn']")
         elemBtn.addEventListener('click', () => {
 
             let paramObj = this.#createParamObj(type, elem)
 
-            // console.log(JSON.stringify(paramObj))
-
+             console.log(JSON.stringify(paramObj))
+             
             let promise = fetch('/cabinet', {
                 method: 'POST',
                 headers: {
@@ -1335,11 +1408,11 @@ export default class HeadConstructor {
                 .then(resp => {
 
                     import('./tableModuleCopy.js').then((TableResult1) => {
-                        
+
                         let elemBody = document.querySelector("[name='content']")
 
                         //console.log(JSON.stringify(resp))
-    
+
                         let elemTable = new TableResult1.default('/cabinetTable', resp).elem
 
                         let currentElemTAble = document.querySelector('table')
@@ -1349,17 +1422,17 @@ export default class HeadConstructor {
 
                         let elTd = elemTable.querySelector('td')
                         elTd.style.width = '15%'
-    
+
                         elemBody.append(elemTable)
-    
-                       // elemBody.innerHTML = elemTable.outerHTML
-    
+
+                        // elemBody.innerHTML = elemTable.outerHTML
+
                         this.#manageHideBtnDld(elemBody)
 
 
                     })
 
-                  
+
 
                 })
 
@@ -1390,7 +1463,7 @@ export default class HeadConstructor {
             })
                 .then(resp => resp.json())
                 .then(resp => {
-                    
+
                     let elemBody = document.querySelector("[name='content']")
 
                     //console.log(JSON.stringify(resp))
@@ -1488,6 +1561,8 @@ export default class HeadConstructor {
 
             let paramObj = this.#createParamObj(type + nameAccesories, elem)
 
+            console.log(paramObj)
+
             console.log(JSON.stringify(paramObj))
 
             let promise = fetch(`/cabinet${nameAccesories}`, {
@@ -1538,10 +1613,26 @@ export default class HeadConstructor {
 
         console.log(elemSelectAccessories)
         elemSelectAccessories.addEventListener('change', function () {
+
+            let arrNamesHide = [
+                'stubsHeightOtion',
+                'fanQuantity',
+                'fanTerm',
+                'organiserGHeight',
+                'organiserGDepth',
+                'organiserGHole',
+                'organiserVDepth',
+                'organiserRingWidthDiv',
+                'organiserRingDepthDiv',
+                'shelfTypeSmallDiv',
+                'shelfTypeSmallDepthDiv',
+                'shelfTypeBigDiv'
+            ]
+
             if (this.value == 'Stubs') {
 
                 let elemStubsHeight = elem.querySelector("[name = 'stubsHeightOtion']")
-                elemStubsHeight.removeAttribute('hidden')
+               // elemStubsHeight.removeAttribute('hidden')
 
                 let arrNew = ['fanQuantity',
                     'fanTerm',
@@ -1553,54 +1644,74 @@ export default class HeadConstructor {
                     'organiserRingDepthDiv'
                 ]
 
-                manageHideElem(arrNew)
+                manageHideElem(arrNamesHide,[elemStubsHeight])
             } else if (this.value == 'Fan') {
                 let elemFanQuantity = elem.querySelector("[name = 'fanQuantity']")
-                elemFanQuantity.removeAttribute('hidden')
+                //elemFanQuantity.removeAttribute('hidden')
                 let elemFanTerm = elem.querySelector("[name = 'fanTerm']")
-                elemFanTerm.removeAttribute('hidden')
-                manageHideElem(['stubsHeightOtion',
+                //elemFanTerm.removeAttribute('hidden')
+               /*  manageHideElem(['stubsHeightOtion',
                     'organiserGHeight',
                     'organiserGDepth',
                     'organiserGHole',
                     'organiserVDepth',
                     'organiserRingWidthDiv',
                     'organiserRingDepthDiv'
-                ])
+                ]) */
+
+                manageHideElem(arrNamesHide,[elemFanQuantity,elemFanTerm])
 
             } else if (this.value == 'OrganiserGorisont') {
                 let elemOrginiserGHeight = elem.querySelector("[name = 'organiserGHeight']")
-                elemOrginiserGHeight.removeAttribute('hidden')
+                //elemOrginiserGHeight.removeAttribute('hidden')
                 let elemOrginiserDepth = elem.querySelector("[name = 'organiserGDepth']")
-                elemOrginiserDepth.removeAttribute('hidden')
+                //elemOrginiserDepth.removeAttribute('hidden')
                 let elemOrginiserGHole = elem.querySelector("[name = 'organiserGHole']")
-                elemOrginiserGHole.removeAttribute('hidden')
-                manageHideElem(['fanQuantity',
+                //elemOrginiserGHole.removeAttribute('hidden')
+              /*   manageHideElem(['fanQuantity',
                     'fanTerm', 'stubsHeightOtion', 'organiserVDepth', 'organiserRingWidthDiv',
-                    'organiserRingDepthDiv'])
+                    'organiserRingDepthDiv']) */
+                    manageHideElem(arrNamesHide,[elemOrginiserGHeight,elemOrginiserDepth,elemOrginiserGHole])
+
+
             } else if (this.value == 'OrganiserVertical') {
                 let elemOrginiserVDepth = elem.querySelector("[name = 'organiserVDepth']")
-                elemOrginiserVDepth.removeAttribute('hidden')
-                manageHideElem(['fanQuantity',
+                //elemOrginiserVDepth.removeAttribute('hidden')
+                /* manageHideElem(['fanQuantity',
                     'fanTerm', 'stubsHeightOtion',
                     'organiserGHeight',
                     'organiserGDepth',
                     'organiserGHole',
                     'organiserRingWidthDiv',
-                    'organiserRingDepthDiv'])
+                    'organiserRingDepthDiv']) */
+                    manageHideElem(arrNamesHide,[elemOrginiserVDepth])
             }
 
             else if (this.value == 'OrganiserRing') {
                 let elemOrganiserRingWidth = elem.querySelector("[name = 'organiserRingWidthDiv']")
-                elemOrganiserRingWidth.removeAttribute('hidden')
+               // elemOrganiserRingWidth.removeAttribute('hidden')
                 let elemOrganiserRingDepth = elem.querySelector("[name = 'organiserRingDepthDiv']")
-                elemOrganiserRingDepth.removeAttribute('hidden')
-                manageHideElem(['fanQuantity',
+              //  elemOrganiserRingDepth.removeAttribute('hidden')
+               /*  manageHideElem(['fanQuantity',
                     'fanTerm', 'stubsHeightOtion',
                     'organiserGHeight',
                     'organiserGDepth',
                     'organiserGHole',
-                    'organiserVDepth'])
+                    'organiserVDepth']) */
+                    manageHideElem(arrNamesHide,[elemOrganiserRingWidth,elemOrganiserRingDepth])
+            }
+            else if (this.value == "shelf1U") {
+                let elemShelfType = elem.querySelector("[name = 'shelfTypeSmallDiv']")
+                let elemShelfDepth = elem.querySelector("[name = 'shelfTypeSmallDepthDiv']")
+                elemShelfDepth.querySelector('select').value = elem.querySelector("[name = 'глубина']").value
+                manageHideElem(arrNamesHide, [elemShelfType, elemShelfDepth])
+
+            }
+
+            else if (this.value == "shelf2U") {
+                let elemShelfType = elem.querySelector("[name = 'shelfTypeBigDiv']")
+                manageHideElem(arrNamesHide, [elemShelfType])
+
             }
 
 
@@ -1613,7 +1724,7 @@ export default class HeadConstructor {
                 let elemFanTerm = elem.querySelector("[name = 'fanTerm']")
                 elemFanTerm.setAttribute('hidden', '') */
 
-                let arrNew = [['stubsHeightOtion'],
+                /* let arrNew = [['stubsHeightOtion'],
                     'fanQuantity',
                     'fanTerm',
                     'organiserGHeight',
@@ -1621,20 +1732,23 @@ export default class HeadConstructor {
                     'organiserGHole',
                     'organiserVDepth',
                     'organiserRingWidthDiv',
-                    'organiserRingDepthDiv']
+                    'organiserRingDepthDiv'] */
 
-                manageHideElem(arrNew)
+                    manageHideElem(arrNamesHide)
 
 
             }
 
-            function manageHideElem(hiddenElemArrName) {
+            function manageHideElem(hiddenElemArrName, noHiddenElemArr) {
                 for (const it of hiddenElemArrName) {
-
                     let elemHide = elem.querySelector(`[name='${it}']`)
-
                     elemHide.setAttribute('hidden', '')
+                }
 
+                if (!noHiddenElemArr) return
+
+                for (const iterator of noHiddenElemArr) {
+                    iterator.removeAttribute('hidden')
                 }
             }
 
