@@ -17,6 +17,17 @@ function readTask(fileName){
 
 }
 
+function readRoute(fileName){
+    
+    fs = require('fs')
+    console.log(`./files/route/${fileName}`)
+    let answer = fs.readFileSync(`./files/route/${fileName.toLowerCase()}`,'utf8')
+    let answerArr = answer.split('\n')
+    return answerArr
+
+}
+
 
 exports.readCatalog = readCatalog
 exports.readTask = readTask
+exports.readRoute = readRoute

@@ -15,6 +15,7 @@ input[name='btnSelect'],
 input[name='selectBtnModule'],
 input[name='selectBtnVar'],
 input[name='btnAccesories'],
+input[name = 'btnRecount'],
 #btn,
 #btnDnld
 {
@@ -26,6 +27,7 @@ input[name='btnAccesories'],
 
 input[name='selectBtn']:hover,
 input[name='btnSelect']:hover,
+input[name = 'btnRecount']:hover,
 #btn:hover,
 input[name='selectBtnModule']:hover,
 input[name='selectBtnVar']:hover,
@@ -49,6 +51,12 @@ input[name='btnAccesories']:hover,
   background-color: #a5b3f3;
 }
 
+[name = "head"] {
+  position: sticky;
+  background-color: aliceblue;
+  top: 5px
+}
+
 
 .menu {
     list-style: none; /*убираем маркеры списка*/
@@ -57,25 +65,64 @@ input[name='btnAccesories']:hover,
     
     display: flex;
   }
- 
-  .menu  a {
+
+  .menuOpticCross,
+  .powerMenu {
+    list-style: none; /*убираем маркеры списка*/
+    margin: 0; /*убираем верхнее и нижнее поле, равное 1em*/
+    padding-left: 0; /*убираем левый отступ, равный 40px*/
+    
+    
+  }
+
+  .menuOpticCross  a,
+  .powerMenu a {
     text-decoration: none; /*убираем подчеркивание текста ссылок*/
-    padding: 1em;
-  display: block;
+    padding: 10px;
+    display: inline-block;
+  color: #000000;
+  border-bottom: 1px solid #616060;
+  background: rgba(148, 148, 148, 0.3);
+  height: 100%;
+  width: 75%;
+  vertical-align: middle;
+  
+  
+}
+ 
+  .menu  a{
+    text-decoration: none; /*убираем подчеркивание текста ссылок*/
+    padding: 10px;
+  display: inline-block;
   color: #000000;
   border-right: 1px solid #616060;
   background: rgba(148, 148, 148, 0.3);
+  height: 100%;
+  vertical-align: middle;
   
+
 }
 
-.menu a:hover {
+ul .menu{
+  display: table-row;
+  height: 0;
+}
+
+li .menu{
+  display: table-cell;
+  height: 100%;
+}
+
+.menu a:hover, 
+.menuOpticCross  a:hover,
+.powerMenu a:hover {
     background: #3f3f3f;
     color: aliceblue    ;
     transition: .5s ease;
 
 }
 
-.menuActive {
+.menuActive a {
     background: #555555;
     color: aliceblue;
 }

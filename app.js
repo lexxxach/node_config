@@ -10,8 +10,15 @@ const ppanelCount = require('./files/catalog/ppanelCount')
 const cableOpticCount = require('./files/catalog/cableOpticCount')
 const cabinetCount = require('./files/catalog/cabinetCount')
 const cabinetAccesoriesCount = require('./files/catalog/cabinetAccesoriesCount')
+const powerCount = require('./files/catalog/powerCount')
 const writeIp = require('./files/catalog/stat')
+const otherCount = require('./files/catalog/otherCount')
+const recount = require('./files/catalog/recount')
+const powerPDUCount = require('./files/catalog/powerPDUCount')
 
+const telegBot = require('./files/otherSourse/telegBot')
+
+telegBot.telegBot()
 
 const app = express()
 
@@ -37,8 +44,8 @@ app.get(arrGraphPath, (req, resp) => {
 
     fs.readFile('graph.html', 'utf-8', function (err, data) {
 
-      /*   let headContent = data.replace('{head}', ``)
-            .replace('{scriptHead}', '<script type="module" src="./files/tasks/scriptTask.js"></script>') */
+        /*   let headContent = data.replace('{head}', ``)
+              .replace('{scriptHead}', '<script type="module" src="./files/tasks/scriptTask.js"></script>') */
         //.replace('{content}', '<h1>Кабель</h1>')
         /* headContent.replace('{content}', '<h1>Кабель</h1>') */
         resp.send(data)
@@ -54,11 +61,198 @@ let arrModuleJsFileGraph = [
 app.get(arrModuleJsFileGraph, (req, resp) => {
 
     console.log(req.url)
-   // console.log(`${__dirname}/files/grapf${req.url}`)
+    // console.log(`${__dirname}/files/grapf${req.url}`)
     resp.sendFile(__dirname + req.url)
 })
 
+//Маршруты
+let arrRoutePath = [
+    '/route'
+]
 
+app.get(arrRoutePath, (req, resp) => {
+
+    fs.readFile('indexRoute.html', 'utf-8', function (err, data) {
+
+        let headContent = data.replace('{head}', ``)
+            .replace('{scriptHead}', '<script type="module" src="./files/route/scriptRoute.js"></script>')
+        //.replace('{content}', '<h1>Кабель</h1>')
+        /* headContent.replace('{content}', '<h1>Кабель</h1>') */
+        resp.send(headContent)
+    })
+
+
+})
+
+
+//Загрузка скриптов
+let arrModuleJsFileRoute = [
+    '/files/route/scriptRoute.js',
+    '/files/route/routeModuleHead.js',
+    '/files/route/routeModuleTable.js',
+    '/files/route/route.txt'
+
+
+]
+
+app.get(arrModuleJsFileRoute, (req, resp) => {
+
+    console.log(req.url)
+    resp.sendFile(__dirname + req.url)
+})
+
+let arrRouteRouteRead = [
+    '/routeRead'
+]
+app.get(arrRouteRouteRead, (req, resp) => {
+
+    let taskFileName = (route) => {
+        if (route.toLowerCase() == '/routeread') return 'route.txt'
+
+    }
+
+    let res = readCatalog.readRoute(taskFileName(req.path))
+    console.log(res)
+    resp.send(res)
+})
+
+
+let arrRouteRouteAdd = [
+    '/routeAdd'
+]
+
+app.post(arrRouteRouteAdd, function (req, resp) {
+    console.log(req.path)
+    // console.log(JSON.parse(readCatalog.readCatalog('cable.txt')))
+
+    // let arrObj = opticCount.createArrRow(req.body)
+    //console.log(arrObj)
+
+    let taskFileName = (routeAdd) => {
+        console.log(routeAdd + '-------')
+        if (routeAdd.toLowerCase() == '/routeadd') { return 'route.txt' }
+        else return typeof routeAdd
+        //if (route == '/taskPastAdd') return 'tasksPast.txt'
+    }
+
+    //console.log(taskFileName(req.path))
+
+    let res = readCatalog.readRoute(taskFileName(req.path))
+
+    //console.log(req.body)
+
+    if (res.length == 0) {
+        fs.writeFileSync(`./files/route/${taskFileName(req.path)}`, JSON.stringify(req.body))
+    } else if (!res[0]) {
+
+        fs.writeFileSync(`./files/route/${taskFileName(req.path)}`, JSON.stringify(req.body))
+
+    } else {
+        fs.appendFileSync(`./files/route/${taskFileName(req.path)}`, '\n' + JSON.stringify(req.body))
+
+    }
+
+    let answer = { статус: 'ок' }
+
+    resp.json(answer)
+
+})
+
+
+/* app.post(arrRouteTaskAdd, function (req, resp) {
+    console.log(req.path)
+    // console.log(JSON.parse(readCatalog.readCatalog('cable.txt')))
+
+    // let arrObj = opticCount.createArrRow(req.body)
+    //console.log(arrObj)
+
+    let taskFileName = (route) => {
+        if (route == '/taskAdd') return 'tasks.txt'
+        if (route == '/taskPastAdd') return 'tasksPast.txt'
+    }
+
+    let res = readCatalog.readTask(taskFileName(req.path))
+
+    if (res.length == 0) {
+        fs.writeFileSync(`./files/tasks/${taskFileName(req.path)}`, JSON.stringify(req.body))
+    } else if (!res[0]) {
+
+        fs.writeFileSync(`./files/tasks/${taskFileName(req.path)}`, JSON.stringify(req.body))
+
+    } else {
+        fs.appendFileSync(`./files/tasks/${taskFileName(req.path)}`, '\n' + JSON.stringify(req.body))
+
+    }
+
+    let answer = { статус: 'ок' }
+
+    resp.json(answer)
+
+}) */
+
+let arrRouteRouteRemove = [
+    '/routeRemove'
+]
+
+app.post(arrRouteRouteRemove, (req, resp) => {
+
+
+    let reqObj = req.body
+    /* let reqObj = req.body
+    console.log(req.body) */
+
+    let taskFileName = (route) => {
+        if (route == '/routeRemove') return 'route.txt'
+        //if (route == '/taskPastRemove') return 'tasksPast.txt'
+    }
+
+    if (reqObj) {
+
+        let res = readCatalog.readRoute(taskFileName(req.path))
+
+        console.log('-----------')
+        console.log(res)
+
+        //обработка одной строки
+        if (res.length == 1) {
+            console.log(res.length)
+            let taskObj = JSON.parse(res[0])
+            taskObj.ид == reqObj.ид ? fs.writeFileSync(`./files/route/${taskFileName(req.path)}`, '') : true
+        } else {
+
+            fs.writeFileSync(`./files/route/${taskFileName(req.path)}`, '')
+
+            let count = 0
+
+            res.forEach((item, index) => {
+
+                let itemObj = JSON.parse(item)
+
+                if ('' + itemObj.ид != reqObj.ид) {
+                    if (!count) {
+                        fs.writeFileSync(`./files/route/${taskFileName(req.path)}`, item)
+                        count++
+
+                    } else {
+                        console.log('' + itemObj.ид)
+                        console.log(item)
+                        fs.appendFileSync(`./files/route/${taskFileName(req.path)}`, '\n' + item)
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    }
+
+    let answer = { статус: 'ок' }
+
+    resp.json(answer)
+
+})
 
 
 
@@ -68,7 +262,6 @@ let arrTaskPath = [
     '/task',
     '/taskPast'
 ]
-
 
 app.get(arrTaskPath, (req, resp) => {
 
@@ -90,9 +283,9 @@ let arrRouteTaskRead = [
 ]
 app.get(arrRouteTaskRead, (req, resp) => {
 
-    let taskFileName = (route)=>{
-        if(route=='/taskRead') return 'tasks.txt'
-        if(route=='/taskPastRead') return 'tasksPast.txt'
+    let taskFileName = (route) => {
+        if (route == '/taskRead') return 'tasks.txt'
+        if (route == '/taskPastRead') return 'tasksPast.txt'
     }
 
     let res = readCatalog.readTask(taskFileName(req.path))
@@ -121,15 +314,15 @@ let arrRouteTaskAdd = [
 ]
 
 app.post(arrRouteTaskAdd, function (req, resp) {
-     console.log(req.path)
+    console.log(req.path)
     // console.log(JSON.parse(readCatalog.readCatalog('cable.txt')))
 
     // let arrObj = opticCount.createArrRow(req.body)
     //console.log(arrObj)
 
-    let taskFileName = (route)=>{
-        if(route=='/taskAdd') return 'tasks.txt'
-        if(route=='/taskPastAdd') return 'tasksPast.txt'
+    let taskFileName = (route) => {
+        if (route == '/taskAdd') return 'tasks.txt'
+        if (route == '/taskPastAdd') return 'tasksPast.txt'
     }
 
     let res = readCatalog.readTask(taskFileName(req.path))
@@ -159,11 +352,11 @@ let arrRouteTaskRemove = [
 app.post(arrRouteTaskRemove, (req, resp) => {
 
     let reqObj = req.body
-     console.log(req.body)
+    console.log(req.body)
 
-     let taskFileName = (route)=>{
-        if(route=='/taskRemove') return 'tasks.txt'
-        if(route=='/taskPastRemove') return 'tasksPast.txt'
+    let taskFileName = (route) => {
+        if (route == '/taskRemove') return 'tasks.txt'
+        if (route == '/taskPastRemove') return 'tasksPast.txt'
     }
 
     if (reqObj) {
@@ -257,13 +450,20 @@ let arrModuleJsFiles = [
     '/files/catalog/tableToExcel2.js',
     '/files/catalog/pcordCount.js',
     '/files/catalog/cabinetCount.js',
+    '/files/catalog/otherCount.js',
     '/files/catalog/cabinetAccesoriesCount.js',
     '/files/catalog/cableOpticCount.js',
     '/files/catalog/moduleCopy.js',
     '/files/catalog/img/copyContent.png',
     '/files/catalog/tableModuleCopy.js',
     '/files/catalog/moduleToast.js',
-    '/files/catalog/params.js'
+    '/files/catalog/params.js',
+    '/files/catalog/powerCount.js',
+    '/files/catalog/powerPDUCount.js',
+    '/files/catalog/moduleRecount.js',
+    '/files/catalog/recount.js',
+    '/files/catalog/elemHtml/elemPowerPdu.js',
+    '/files/catalog/catalogFiles/universalModule/tableJob.js'
 
 ]
 
@@ -276,43 +476,15 @@ app.get(arrModuleJsFiles, (req, resp) => {
 
 app.get(routeHead(), (req, resp) => {
 
-    //console.log(111)
-
-   /*  let currentIp = requestIP.getClientIp(req)
-
-    async function writeIp(){
-        let resp = await fetch(`http://api.sypexgeo.net/json/${currentIp.replace(/::ffff:/,'')}`)
-        let res = await resp.json()
-
-        let ipAddr = res.ip
-        let ipRegion = res.region.name_ru
-        let ipCity = res.city.name_ru
-        let resStr = `IP:${ipAddr}_Область:${ipRegion}_Город:${ipCity}_${new Date()}_${req.path}`
+    //запись IP
+    //Включить
+     try {
+         writeIp.writeIp('./files/catalog/stat/', 'statistic.txt', requestIP.getClientIp(req), req.path)
+     } catch (error) {
+         
+     }
 
 
-        fs.appendFileSync('./files/catalog/stat/statistic.txt', resStr + '\n')
-
-    }
- */
-   writeIp.writeIp('./files/catalog/stat/','statistic.txt',requestIP.getClientIp(req),req.path)
-   console.log(writeIp.nPlus())
-
-    
-  /*   fetch(`http://api.sypexgeo.net/json/${currentIp.replace(/::ffff:/,'')}`)
-    .then((res)=>res.json())
-    .then(res=>{
-        
-        let ipAddr = res.ip
-        let ipRegion = res.region.name_ru
-        let ipCity = res.city.name_ru
-        let resStr = `IP:${ipAddr}_Область:${ipRegion}_Город:${ipCity}_${new Date()}_${req.path}`
-
-
-        fs.appendFileSync('./files/catalog/stat/statistic.txt', resStr + '\n')
-
-    }) */
-   
-    
 
     fs.readFile('index.html', 'utf-8', function (err, data) {
 
@@ -342,7 +514,19 @@ app.get(routeHead(), (req, resp) => {
 
                 break
             case '/cabinet':
-                nameHead = 'Параметры выбора напольных кшафов'
+                nameHead = 'Параметры выбора напольных шкафов'
+
+                break
+            case '/power':
+                nameHead = 'Управление питанием'
+
+                break
+            case '/other':
+                nameHead = 'Прочие компненты СКС'
+
+                break
+            case '/recount':
+                nameHead = 'Пересчет'
 
                 break
         }
@@ -359,7 +543,7 @@ app.get(routeHead(), (req, resp) => {
         resp.send(headContent)
     })
 
-   
+
 
 
 
@@ -381,10 +565,83 @@ app.post('/cableTable', function (req, resp) {
 
 app.post('/opticTable', function (req, resp) {
     let arrObj = opticCount.createArrRow(req.body)
+    //console.log(req.body)
+
+    resp.json(arrObj)
+})
+
+app.post('/opticTableWall', function (req, resp) {
+
+
+    let arrObj = opticCount.createArrRow(req.body, req.path)
     //console.log(arrObj)
 
     resp.json(arrObj)
 })
+
+app.post('/opticTableComplect', function (req, resp) {
+
+    console.log(req.path)
+
+    let arrObj = opticCount.createArrRow(req.body, req.path)
+    //  console.log(arrObj)
+
+    resp.json(arrObj)
+})
+
+app.post('/powerCable', function (req, resp) {
+
+    // console.log(req.path)
+    // console.log(req.body)
+
+    let arrObj = powerCount.createArrRow(req.body, req.path)
+    //  console.log(arrObj)
+
+    resp.json(arrObj)
+})
+
+app.post('/powerPDU', function (req, resp) {
+
+     console.log(req.path)
+    // console.log(req.body)
+
+    let arrObj = powerPDUCount.createArrRow(req.body, req.path)
+    //  console.log(arrObj)
+
+    resp.json(arrObj)
+})
+
+app.post(['/otherDinModule', '/otherWallModule', '/otherConnModule', '/otherClampModule'], function (req, resp) {
+
+    console.log(req.path)
+    console.log(req.body)
+
+    let arrObj = otherCount.createArrRow(req.body, req.path)
+    //  console.log(arrObj)
+
+    resp.json(arrObj)
+})
+
+app.post(['/recountModule'], function (req, resp) {
+
+    console.log(req.path)
+    console.log(req.body)
+
+    let arrObj = recount.createArrRow(req.body, req.path)
+    //  console.log(arrObj)
+
+    resp.json(arrObj)
+})
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -421,11 +678,13 @@ app.post('/pcordOpticTable', function (req, resp) {
 
 
 
-app.post(['/cabinet'], function (req, resp) {
+app.post(['/cabinet', '/cabinetWall'], function (req, resp) {
     //  alert.log(req.body)
-    // console.log(req.body)
 
-    let arrObj = cabinetCount.createArrRow(req.body)
+    console.log(req.body)
+    console.log(req.path)
+
+    let arrObj = cabinetCount.createArrRow(req.path, req.body)
     // console.log(arrObj)
 
     resp.json(arrObj)
@@ -445,7 +704,10 @@ let arrCabinet = [
     '/cabinetOrganiserVertical',
     '/cabinetOrganiserRing',
     '/cabinetDinModule',
-    '/cabinetLight'
+    '/cabinetLight',
+    '/cabinetshelf1U',
+    '/cabinetshelf2U'
+
 
 ]
 
@@ -453,6 +715,8 @@ app.post(arrCabinet, function (req, resp) {
     //  alert.log(req.body)
     //   console.log('------Тело запроса -------------')
     console.log(req.body)
+
+    //console.log(req.body)
 
     let arrObj = cabinetAccesoriesCount.createArrRow(req.path, req.body)
     // console.log(arrObj)
@@ -480,7 +744,6 @@ app.post('/cableOpticTable', function (req, resp) {
 
 function routeHead() {
     let appPath = []
-    console.log(123)
     appPath.push('/cable')
     appPath.push('/cableOptic')
     appPath.push('/optic')
@@ -488,6 +751,9 @@ function routeHead() {
     appPath.push('/pcordOptic')
     appPath.push('/ppanel')
     appPath.push('/cabinet')
+    appPath.push('/power')
+    appPath.push('/other')
+    appPath.push('/recount')
     return appPath
 }
 

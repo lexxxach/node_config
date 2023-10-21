@@ -1,15 +1,21 @@
 const { json } = require('express')
 const readCatalog = require('./readCatalog')
 
-function createArrRow(data) {
+function createArrRow(path, data) {
 
-    if (!data.патчКордОптика) { //Массив с именами методов
+    // if (!data.патчКордОптика) { //Массив с именами методов
 
+    console.log('path')
+
+    //let arrArt = []
+
+    if (path == '/cabinet') {
         //Формирование набора
         //Массив строк
         let fileName = 'cabinetDetails'
         let obj = JSON.parse(readCatalog.readCatalog(`${fileName}.txt`))
-        // console.log(obj)
+       /*  console.log('obj') 
+        console.log(obj) */
 
         let arrNameDet = [
             'ножки',
@@ -23,72 +29,92 @@ function createArrRow(data) {
             'креплениеПрофиля',
             'профиль']
 
-        let arrArt = arrNameDet.map(item => new ResObj(obj, data, item))
-
-        //  arrName.map(item => JSON.parse(readCatalog.readCatalog(`${item}.txt`)))
-
-
-        /* let arrName = ['pcord']
-
-        //массив объектов из файла
-        let arrObj = arrName.map(item => JSON.parse(readCatalog.readCatalog(`${item}.txt`)))
-
-        let arrArt
-
-        //Массив объектов набора
-        if (!data.подборПоКатегории) {
-            arrArt = arrName.map(item => new ResObj(arrObj[arrName.indexOf(item)], data, item))
-        } else {
-
-            let arrTempCat
-            switch (data.категория) {
-                case '5E':
-                    arrTempCat = arrObj[0].артикул.filter(item => item.includes(data.категория))
-                    break
-                case '6':
-                    arrTempCat = arrObj[0].артикул.filter(item => (!item.includes('5E')) && (!item.includes('6A')))
-                    break
-                case '6A':
-                    arrTempCat = arrObj[0].артикул.filter(item => item.includes(data.категория))
-                    break
-            }
-            arrArt = arrTempCat.map(item => new ResObj(arrObj[0], data, item))
-        }
-        //console.log(Object.keys(data))
-        //arrArt.forEach(item => console.log(JSON.stringify(item)))
-        return arrArt //new ResObj(opticPanel, data, 'opticPanel', mult)
-    } else {
-        //console.log(data)
-
-        let arrName = ['pcordOptic']
-        let arrObj = arrName.map(item => JSON.parse(readCatalog.readCatalog(`${item}.txt`)))
-
-        if (!data.подборПоКабелю) {
-
-            let arrArt = arrName.map((item, index) => new ResObj(arrObj[index], data, item))
-           
-            let arrArtObj = []
-
-            arrArt.forEach((item, index) => {
-                item.артикул.forEach((itm, ind) => {
-                    let resObj = {}
-                    resObj.артикул = itm
-                    resObj.наименование = item.наименование[ind]
-                    resObj.количество = item.количество[ind]
-                    let началоАдреса = 'https://www.dkc.ru/ru/catalog/976/'
-                    resObj.адрес = `${началоАдреса}${resObj.артикул}/`
-                    arrArtObj.push(resObj)
-                })
-            })
-
-         // console.log(arrArtObj)
-
-            return arrArtObj
-        }
- */
+      let  arrArt = arrNameDet.map(item => new ResObj(obj, data, item))
+        console.log(arrArt)
         return arrArt
+    } else if (path == '/cabinetWall') {
+
+        let fileName = 'cabinetWall'
+
+        console.log('arrArt')
+
+        let obj = JSON.parse(readCatalog.readCatalog(`${fileName}.txt`))
+
+        let arrNameDet = [
+            'шкафНавесной']
+
+     let   arrArt = arrNameDet.map(item => new ResObj(obj, data, item))
+            
+            return arrArt
 
     }
+
+
+
+    //  arrName.map(item => JSON.parse(readCatalog.readCatalog(`${item}.txt`)))
+
+
+    /* let arrName = ['pcord']
+
+    //массив объектов из файла
+    let arrObj = arrName.map(item => JSON.parse(readCatalog.readCatalog(`${item}.txt`)))
+
+    let arrArt
+
+    //Массив объектов набора
+    if (!data.подборПоКатегории) {
+        arrArt = arrName.map(item => new ResObj(arrObj[arrName.indexOf(item)], data, item))
+    } else {
+
+        let arrTempCat
+        switch (data.категория) {
+            case '5E':
+                arrTempCat = arrObj[0].артикул.filter(item => item.includes(data.категория))
+                break
+            case '6':
+                arrTempCat = arrObj[0].артикул.filter(item => (!item.includes('5E')) && (!item.includes('6A')))
+                break
+            case '6A':
+                arrTempCat = arrObj[0].артикул.filter(item => item.includes(data.категория))
+                break
+        }
+        arrArt = arrTempCat.map(item => new ResObj(arrObj[0], data, item))
+    }
+    //console.log(Object.keys(data))
+    //arrArt.forEach(item => console.log(JSON.stringify(item)))
+    return arrArt //new ResObj(opticPanel, data, 'opticPanel', mult)
+} else {
+    //console.log(data)
+
+    let arrName = ['pcordOptic']
+    let arrObj = arrName.map(item => JSON.parse(readCatalog.readCatalog(`${item}.txt`)))
+
+    if (!data.подборПоКабелю) {
+
+        let arrArt = arrName.map((item, index) => new ResObj(arrObj[index], data, item))
+       
+        let arrArtObj = []
+
+        arrArt.forEach((item, index) => {
+            item.артикул.forEach((itm, ind) => {
+                let resObj = {}
+                resObj.артикул = itm
+                resObj.наименование = item.наименование[ind]
+                resObj.количество = item.количество[ind]
+                let началоАдреса = 'https://www.dkc.ru/ru/catalog/976/'
+                resObj.адрес = `${началоАдреса}${resObj.артикул}/`
+                arrArtObj.push(resObj)
+            })
+        })
+
+     // console.log(arrArtObj)
+
+        return arrArtObj
+    }
+*/
+   
+
+    //}
 }
 
 exports.createArrRow = createArrRow
@@ -149,11 +175,17 @@ function ResObj(obj, data, type) {
             this.наименование = obj.наименование[obj.артикул.indexOf(this.артикул)]
             this.количество = data.Количество * cabinetBracingObj.множитель
             break
-            case 'профиль':
+        case 'профиль':
             let cabinetProfileObj = cabinetProfile(obj, data)
             this.артикул = cabinetProfileObj.артикул
             this.наименование = obj.наименование[obj.артикул.indexOf(this.артикул)]
             this.количество = data.Количество * cabinetProfileObj.множитель
+            break
+        case 'шкафНавесной':
+            let cabinetWallObj = cabinetWall(obj, data)
+            this.артикул = cabinetWallObj.артикул
+            this.наименование = obj.наименование[obj.артикул.indexOf(this.артикул)]
+            this.количество = data.Количество * cabinetWallObj.множитель
             break
 
     }
@@ -236,8 +268,20 @@ function cabinetDoor(obj, data, doorMaterial, doorType) {
 
     }
 
+    let objHeight = {
+        '24': 12,
+        '28': 14,
+        '32': 16,
+        '38': 18,
+        '42': 20,
+        '47': 22
+    }
 
-    switch (data.высота) {
+    n3 = objHeight[data.высота]
+
+
+
+    /* switch (data.высота) {
         case '24':
             n3 = 12
             break
@@ -256,7 +300,7 @@ function cabinetDoor(obj, data, doorMaterial, doorType) {
         case '47':
             n3 = 22
             break
-    }
+    } */
     n4 = data.ширина == '6' ? '6' : '8'
     n5 = doorType == '1' ? '0' : '1'    //одностворчатая дверь 0, двустворчатая дверь 1
     n6 = data.цвет == '9005' ? 'B' : ''
@@ -389,11 +433,11 @@ function cabinetBase(obj, data) {
 
     let res = new ObjArt()
 
-    //R5KTB_8_10_FIT_B
+    //R5RKTB_8_10_FIT_B
 
 
     let n1, n2, n3, n4, n5
-    n1 = 'R5KTB'
+    n1 = 'R5RKTB'
 
     n2 = data.ширина == '6' ? '6' : '8'
 
@@ -435,7 +479,7 @@ function cabinetBracing(obj, data) {
         //R5PDL_800
 
         let n1, n2
-        n1 = 'R5PDL'
+        n1 = 'R5NPDL'
 
         if (data.глубина == '6') {
             n2 = 600
@@ -474,11 +518,11 @@ function cabinetProfile(obj, data) {
 
     let res = new ObjArt()
 
-     //R5VUG_42_L
+    //R5VUG_42_L
 
-     let n1, n2, n3
-     n1 = 'R5VUG'
-    
+    let n1, n2, n3
+    n1 = 'R5VUG'
+
 
     switch (data.высота) {
         case '24':
@@ -509,9 +553,52 @@ function cabinetProfile(obj, data) {
     n3 = 'L'
 
     res.множитель = 2
-    
-   
 
+
+
+
+    return res
+
+}
+
+//навесной шкаф
+function cabinetWall(obj, data) {
+
+    let res = new ObjArt()
+
+    //R5_STI_12_65_GS_цвет
+
+
+    let n1, n2, n3, n4, n5, n6
+    n1 = 'R5'
+    n2 = 'STI'
+
+    switch (data.высота) {
+        case '9':
+            n3 = '09'
+            break
+        case '12':
+            n3 = '12'
+            break
+        case '16':
+            n3 = '16'
+            break
+        case '20':
+            n3 = '20'
+            break
+    }
+
+    n4 = data.глубина == '4' ? '40' : '65'
+    n5 = data.дверьПередняя
+    n6 = data.цвет == '7035' ? '' : 'B'
+
+    let art = obj.артикул.find(item => item == `${n1}${n2}${n3}${n4}${n5}${n6}`)
+    res.артикул = art
+
+
+    res.множитель = 1
+
+    console.log(`${n1}${n2}${n3}${n4}${n5}${n6}`)
 
     return res
 

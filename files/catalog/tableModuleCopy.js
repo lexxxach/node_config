@@ -12,7 +12,7 @@ export default class TableResult {
         let elemTBody = document.createElement('tbody')
         elemTable.append(elemTBody)
         elemTBody.append(elemRow)
-        let arrCol = ['Артикул', 'Количество', 'Наименование', 'Адрес']
+        let arrCol = path!='/recountTable'?['Артикул', 'Количество', 'Наименование', 'Адрес']:['Начальный артикул', 'Артикул','Количество', 'Наименование']
         arrCol.forEach(element => {
             let elemCol = document.createElement('th')
             elemCol.textContent = element
@@ -37,7 +37,10 @@ export default class TableResult {
         } else if (path.includes('/cabinetTable')) {
 
             elemTable.dataset.nameDldFile = 'Напольные шкафы'
-        } else {
+        }  else if (path.includes('/recountTable')) {
+
+            elemTable.dataset.nameDldFile = 'Пересчет'
+        }else {
 
             elemTable.dataset.nameDldFile = 'Перечень кабель'
         }
@@ -48,7 +51,11 @@ export default class TableResult {
     }
 
     //Отрисовка строки
-    #renderRow(resp, elemTableHead, elemsTableHead) {
+    #renderRow(resp, elemTableHead, elemsTableHead,path) {
+
+//let respLower = resp.toLowerCase()
+
+      
 
         let elemRow = document.createElement('tr')
         /* elemRow.addEventListener('click',()=>alert(111)) */
@@ -62,7 +69,12 @@ export default class TableResult {
             let elemColArt = document.createElement('td')
             /* elemColArt.addEventListener('mouseover',()=>alert(111)) */
             //  alert(entry)
-            if (!resp[entry.textContent.toLowerCase()]) {
+            
+            //let remColContent = entry.textContent.toLowerCase().replace(/\s/g,'') 
+           console.log(resp)
+           console.log(entry.textContent.toLowerCase().replace(/\s/g,''))
+
+            if (!resp[entry.textContent.toLowerCase().replace(/\s/g,'')]) {
                 elemColArt.textContent = 'Артикул не найден'
             }
             else {
@@ -76,7 +88,7 @@ export default class TableResult {
                     elemColArt.append(elemAdres)
 
                 } else {
-                    elemColArt.textContent = resp[entry.textContent.toLowerCase()]
+                    elemColArt.textContent = resp[entry.textContent.toLowerCase().replace(/\s/g,'')]
                    
                    // let elemCopy = new CopyContent()
 
@@ -238,6 +250,11 @@ export default class TableResult {
 
 
         } else if (path == '/cableOpticTable') {
+
+            resp.forEach(item => elemTableHead.append(this.#renderRow(item, elemTableHead, elemsTableHead,path)))
+
+        }
+        else if (path == '/recountTable') {
 
             resp.forEach(item => elemTableHead.append(this.#renderRow(item, elemTableHead, elemsTableHead)))
 

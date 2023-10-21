@@ -1,6 +1,26 @@
-<!-- без заголовка -->
-<div>
-    <label for="taskName">Наименование задачи:</label>
-    <input type="text" placeholder="Описание задачи" name="taskName">
-    <input type="button" value="Добавить задачу">
-</div>
+<label for="брпТип">Тип PDU:</label>
+
+            <select name="брпТип">
+                <option value="19" selected>горизонтальный</option>
+                <option value="V" disabled>вертикальный</option>
+            </select>
+
+            <label for="outPdu">Выходной разъем:</label>
+            
+            <select name="outPdu">
+                <option value="SH" selected>Shuko</option>
+                <option value="IEC">С13</option>
+                <option value="С14">С14</option>
+                
+                
+            </select>
+
+        
+            <span></span>
+            <div>
+                <input type="button" id="btn" name="btnPowerCable" value="Подбор">
+            </div>
+            <div>
+                Количество, шт <input type="number" name="quantity" value="1">
+            </div>
+    
